@@ -27,6 +27,7 @@ calc_ROC <- function(probabilities, known_truth, model.name = NULL)
   result %>% add_row(true_pos = 0, false_pos = 0) %>% arrange(false_pos, true_pos)
 }
 
+# this function creates a sine movement for the cutoff line
 sine_movement <- function(){
   df <- data.frame(frame = c(0, 20, 30, 45, 60, 80, 90, 100, 110, 120, 130),
                    line_position = c(-35, 0, 10, 5, -5, 25, 42, 25, 5, -25, -45))
@@ -38,6 +39,61 @@ sine_movement <- function(){
                             line_position = predict(fit, data.frame(frame = t_full)))
   return(fitted_line)
 } 
+
+# this function makes a plot of two distributions of linear predictors 
+# the distributions will be colored with proportions of true positives, false negatives, true negatives, and false positives based on the `cutoff` 
+plot_lp <- function(cutoff){
+  vers_df %>% filter(predictor < cutoff) %>% mutate(type = factor("TN", levels = c("TN", "FP", "FN", "TP"))) -> TN_area
+  vers_df %>% filter(predictor >= cutoff) %>% mutate(type = factor("FP", levels = c("TN", "FP", "FN", "TP"))) -> FP_area
+  
+  virg_df %>% filter(predictor < cutoff) %>% mutate(type = factor("FN", levels = c("TN", "FP", "FN", "TP"))) -> FN_area
+  virg_df %>% filter(predictor >= cutoff) %>% mutate(type = factor("TP", levels = c("TN", "FP", "FN", "TP"))) -> TP_area
+  
+  p_dist <- ggplot(mapping = aes(x = predictor, y = density, fill = type)) +
+    geom_vline(xintercept = cutoff) +
+    geom_hline(yintercept = 0, color = "black", size = 0.5, linetype = 2) +
+    geom_area(data = TN_area, alpha = 0.7) +
+    geom_area(data = FP_area, alpha = 0.7, show.legend = FALSE) +
+    geom_area(data = FN_area, alpha = 0.7, show.legend = FALSE) +
+    geom_area(data = TP_area, alpha = 0.7, show.legend = FALSE) +
+    scale_fill_manual(name = NULL,
+                      drop = FALSE,
+                      values = c(TN = "#CD8305",
+                                 FP = "#FCAE58", 
+                                 FN = "#8BCFF4", 
+                                 TP = "#127B9F"),
+                      breaks = c("TN", "FP", "FN", "TP"),
+                      labels = c("true -", "false +", "false -", "true +")) +
+    guides(fill = guide_legend(override.aes = list(alpha = 0.7))) +
+    scale_x_continuous(limits = c(-45, 50)) +
+    theme_cowplot() +
+    theme(legend.position = "top",
+          legend.text = element_text(size = 14),
+          legend.margin = margin(0, 0, 0, 0),
+          legend.box.margin = margin(0, 0, -10, 0)) 
+}
+
+# this function makes a plot of an ROC curve with a point on the curve that corresponds to a given cutoff
+plot_ROC <- function(cutoff){
+  new_lr_data %>% filter(Species == "versicolor", predictor < cutoff) %>% tally() -> TN
+  new_lr_data %>% filter(Species == "versicolor", predictor >= cutoff) %>% tally() -> FP
+  new_lr_data %>% filter(Species == "virginica", predictor < cutoff) %>% tally() -> FN
+  new_lr_data %>% filter(Species == "virginica", predictor >= cutoff) %>% tally() -> TP
+  
+  TP_rate <- TP/(FN+TP)
+  FP_rate <- FP/(TN+FP)
+  dot_loc <- data.frame(TP_rate = TP_rate$n, FP_rate = FP_rate$n)
+  
+  p_ROC <- ggplot() +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_line(data = ROC, aes(x = false_pos, y = true_pos), size = 1) +
+    geom_point(data = dot_loc, aes(x = FP_rate, y = TP_rate), size = 5, color = "#FE794F") +
+    ggtitle("AUC = 0.853") +
+    scale_x_continuous(name = "false positive rate",
+                       limits = c(0, 1)) +
+    scale_y_continuous(name = "true positive rate",
+                       limits = c(0, 1))
+}
 
 # make a reduced iris data set that only contains virginica and versicolor species
 iris.small <- filter(iris, Species %in% c("virginica", "versicolor"))
@@ -71,66 +127,29 @@ virg_df <- data.frame(predictor = d_virg$x - 6.7, density = d_virg$y)
 vers_df <- data.frame(predictor = d_vers$x + 6.8, density = d_vers$y)
 
 make_plots <- function() {
+  # get the sine movement of the cutoff
   movement_range <- c(-30, 42) 
   m <- sine_movement()
-
+  
+  # create a plot for each frame of the animation
   for (i in m$frame){
+    # cutoff value
     cutoff <- m$line_position[i]
     
+    # restrict the cutoff to stay in the range given by `movement_range`
     if (cutoff < min(movement_range)) cutoff <- min(movement_range)
     if (cutoff > max(movement_range)) cutoff <- max(movement_range)
     
-    vers_df %>% filter(predictor < cutoff) %>% mutate(type = factor("TN", levels = c("TN", "FP", "FN", "TP"))) -> TN_area
-    vers_df %>% filter(predictor >= cutoff) %>% mutate(type = factor("FP", levels = c("TN", "FP", "FN", "TP"))) -> FP_area
+    # make a distribution plot
+    p_dist <- plot_lp(cutoff)
+    # make an ROC plot
+    p_ROC <- plot_ROC(cutoff)
     
-    virg_df %>% filter(predictor < cutoff) %>% mutate(type = factor("FN", levels = c("TN", "FP", "FN", "TP"))) -> FN_area
-    virg_df %>% filter(predictor >= cutoff) %>% mutate(type = factor("TP", levels = c("TN", "FP", "FN", "TP"))) -> TP_area
-    
-    p_dist <- ggplot(mapping = aes(x = predictor, y = density, fill = type)) +
-      geom_vline(xintercept = cutoff) +
-      geom_hline(yintercept = 0, color = "black", size = 0.5, linetype = 2) +
-      geom_area(data = TN_area, alpha = 0.7) +
-      geom_area(data = FP_area, alpha = 0.7, show.legend = FALSE) +
-      geom_area(data = FN_area, alpha = 0.7, show.legend = FALSE) +
-      geom_area(data = TP_area, alpha = 0.7, show.legend = FALSE) +
-      scale_fill_manual(name = NULL,
-                        drop = FALSE,
-                        values = c(TN = "#CD8305",
-                                   FP = "#FCAE58", 
-                                   FN = "#8BCFF4", 
-                                   TP = "#127B9F"),
-                        breaks = c("TN", "FP", "FN", "TP"),
-                        labels = c("true -", "false +", "false -", "true +")) +
-      guides(fill = guide_legend(override.aes = list(alpha = 0.7))) +
-      scale_x_continuous(limits = c(-45, 50)) +
-      theme_cowplot() +
-      theme(legend.position = "top",
-            legend.text = element_text(size = 14),
-            legend.margin = margin(0, 0, 0, 0),
-            legend.box.margin = margin(0, 0, -10, 0)) 
-    
-    new_lr_data %>% filter(Species == "versicolor", predictor < cutoff) %>% tally() -> TN
-    new_lr_data %>% filter(Species == "versicolor", predictor >= cutoff) %>% tally() -> FP
-    new_lr_data %>% filter(Species == "virginica", predictor < cutoff) %>% tally() -> FN
-    new_lr_data %>% filter(Species == "virginica", predictor >= cutoff) %>% tally() -> TP
-    
-    TP_rate <- TP/(FN+TP)
-    FP_rate <- FP/(TN+FP)
-    dot_loc <- data.frame(TP_rate = TP_rate$n, FP_rate = FP_rate$n)
-    
-    p_ROC <- ggplot() +
-      geom_abline(intercept = 0, slope = 1) +
-      geom_line(data = ROC, aes(x = false_pos, y = true_pos), size = 1) +
-      geom_point(data = dot_loc, aes(x = FP_rate, y = TP_rate), size = 5, color = "#FE794F") +
-      ggtitle("AUC = 0.853") +
-      scale_x_continuous(name = "false positive rate",
-                         limits = c(0, 1)) +
-      scale_y_continuous(name = "true positive rate",
-                         limits = c(0, 1))
-    
+    # combine two plots together
     p <- plot_grid(p_dist, p_ROC, nrow = 1, ncol = 2, axis = "tb")
     print(p)
   }
 } 
 
+# animate plots
 gifski::save_gif(make_plots(), "cutoff.gif", delay = 1/13, width = 800, height = 400)
