@@ -24,16 +24,18 @@ calc_ROC <- function(probabilities, known_truth, model.name = NULL)
   else
     result <- data.frame(true_pos, false_pos, model.name)
   
-  result %>% add_row(true_pos = 0, false_pos = 0) %>% arrange(false_pos, true_pos)
+  result %>% add_row(true_pos = 0, false_pos = 0) %>% arrange(false_pos, true_pos) 
 }
 
 # this function creates a sine movement for the cutoff line
 sine_movement <- function(){
+  # manualy choose points for fitting
   df <- data.frame(frame = c(0, 20, 30, 45, 60, 80, 90, 100, 110, 120, 130),
                    line_position = c(-35, 0, 10, 5, -5, 25, 42, 25, 5, -25, -45))
-  
+  # fit a sine-type line to the points
   fit <- gam(line_position ~ s(frame, k = nrow(df)), data = df)
   
+  # make a data frame with the fitted line
   t_full <- 1:131
   fitted_line <- data.frame(frame = t_full, 
                             line_position = predict(fit, data.frame(frame = t_full)))
@@ -43,12 +45,14 @@ sine_movement <- function(){
 # this function makes a plot of two distributions of linear predictors 
 # the distributions will be colored with proportions of true positives, false negatives, true negatives, and false positives based on the `cutoff` 
 plot_lp <- function(cutoff){
+  # split up the density area for coloring true negatives (TN), false positives (FP), false negatives (FN), and true positives (TP) for a given cutoff
   vers_df %>% filter(predictor < cutoff) %>% mutate(type = factor("TN", levels = c("TN", "FP", "FN", "TP"))) -> TN_area
   vers_df %>% filter(predictor >= cutoff) %>% mutate(type = factor("FP", levels = c("TN", "FP", "FN", "TP"))) -> FP_area
   
   virg_df %>% filter(predictor < cutoff) %>% mutate(type = factor("FN", levels = c("TN", "FP", "FN", "TP"))) -> FN_area
   virg_df %>% filter(predictor >= cutoff) %>% mutate(type = factor("TP", levels = c("TN", "FP", "FN", "TP"))) -> TP_area
   
+  # make a plot with 4 different `geom_areas`
   p_dist <- ggplot(mapping = aes(x = predictor, y = density, fill = type)) +
     geom_vline(xintercept = cutoff) +
     geom_hline(yintercept = 0, color = "black", size = 0.5, linetype = 2) +
@@ -64,10 +68,10 @@ plot_lp <- function(cutoff){
                                  TP = "#127B9F"),
                       breaks = c("TN", "FP", "FN", "TP"),
                       labels = c("true -", "false +", "false -", "true +")) +
-    guides(fill = guide_legend(override.aes = list(alpha = 0.7))) +
-    scale_x_continuous(limits = c(-45, 50)) +
+    guides(fill = guide_legend(override.aes = list(alpha = 0.7))) + # set the colors in the legend to match the colors of the density plots
+    scale_x_continuous(limits = c(-45, 50)) + # restrict x axis to match animation made by `animate_ROC.r`
     theme_cowplot() +
-    theme(legend.position = "top",
+    theme(legend.position = "top", # customize the legend
           legend.text = element_text(size = 14),
           legend.margin = margin(0, 0, 0, 0),
           legend.box.margin = margin(0, 0, -10, 0)) 
