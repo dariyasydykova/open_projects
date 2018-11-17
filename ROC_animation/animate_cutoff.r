@@ -75,15 +75,19 @@ plot_lp <- function(cutoff){
 
 # this function makes a plot of an ROC curve with a point on the curve that corresponds to a given cutoff
 plot_ROC <- function(cutoff){
+  # count the number of true negatives (TN), false positives (FP), false negatives (FN), and true positives (TP) for a given cutoff
   new_lr_data %>% filter(Species == "versicolor", predictor < cutoff) %>% tally() -> TN
   new_lr_data %>% filter(Species == "versicolor", predictor >= cutoff) %>% tally() -> FP
   new_lr_data %>% filter(Species == "virginica", predictor < cutoff) %>% tally() -> FN
   new_lr_data %>% filter(Species == "virginica", predictor >= cutoff) %>% tally() -> TP
   
+  # calculate true positive rate and false positive rate
   TP_rate <- TP/(FN+TP)
   FP_rate <- FP/(TN+FP)
+  # make a data frame for the location of the dot along an ROC curve
   dot_loc <- data.frame(TP_rate = TP_rate$n, FP_rate = FP_rate$n)
   
+  # plot an ROC curve and a dot
   p_ROC <- ggplot() +
     geom_abline(intercept = 0, slope = 1) +
     geom_line(data = ROC, aes(x = false_pos, y = true_pos), size = 1) +
@@ -108,12 +112,13 @@ glm.out <- glm(Species ~ Petal.Width + Petal.Length + Sepal.Width,
 lr_data <- data.frame(predictor = glm.out$linear.predictors,
                       Species = iris.small$Species)
 
-# calculate an ROC curve
+# move linear predictors to create more overlap
 lr_data %>% filter(Species == "virginica") %>%
   mutate(predictor = predictor - 6.7) -> lr_virg
 lr_data %>% filter(Species == "versicolor") %>%
   mutate(predictor = predictor + 6.7) -> lr_vers
 
+# calculate an ROC curve
 rbind(lr_virg, lr_vers) %>% 
   mutate(probabilities = exp(predictor)/(1+exp(predictor))) -> new_lr_data
 ROC <- calc_ROC(probabilities = new_lr_data$probabilities,
