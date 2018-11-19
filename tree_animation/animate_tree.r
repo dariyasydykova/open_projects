@@ -11,8 +11,12 @@ tree_df <- data.frame(time = c(0, 5, 0, 5, 3, 5, 3, 5),
                       position = c(5, 10, 5, 0, 8, 6, 2, 4),
                       branch = c('b1', 'b1', 'b2', 'b2', 'b3', 'b3', 'b4', 'b4'),
                       sequence = c("EPNGENRR…",
+                                   "EPNGENRR…",
+                                   "KPNGESDK…",
                                    "KPNGESDK…",
                                    "DPHGESFF…",
+                                   "DPHGESFF…",
+                                   "IPHGENRR…",
                                    "IPHGENRR…"))
 
 ancestor_seq <- "DPHGESFF…"
