@@ -17,8 +17,8 @@ generativeart::setup_directories(IMG_DIR, IMG_SUBDIR, IMG_SUBDIR2, LOGFILE_DIR)
 
 # include a specific formula, for example:
 my_formula <- list(
-  x = quote(runif(1, -1, 1) * x_i^2 - sin(y_i^2)),
-  y = quote(runif(1, -1, 1) * y_i^4 - cos(x_i^4))
+  x = quote(runif(1, -1, 1) * x_i^4 - sin(y_i^2)),
+  y = quote(runif(1, -1, 1) * y_i^4 - cos(x_i^2))
 )
 
 # making a data frame with the visualization
@@ -53,8 +53,7 @@ if (polar == TRUE) {
 }
 
 # add background and save the plot
-final_plot <- plot + theme(panel.background = element_rect(fill = "#b2b8db"),
-             plot.background = element_rect(fill = "#b2b8db"))
+final_plot <- plot + theme(plot.background = element_rect(fill = "#adccc7"))
 print(final_plot)
 
 #ggsave(final_plot, filename = paste(IMG_PATH, file_name, sep = ""), width = 6, height = 6)
