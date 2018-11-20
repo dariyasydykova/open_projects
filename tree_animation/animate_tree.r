@@ -6,11 +6,13 @@ library(cowplot)
 library(gganimate)
 
 # make a data frame for a tree
-tree_df <- data.frame(time = c(0, 5, 0, 5, 3, 5, 3, 5),
-                      position = c(5, 10, 5, 0, 8, 6, 2, 4),
-                      branch = c('b1', 'b1', 'b2', 'b2', 'b3', 'b3', 'b4', 'b4'),
-                      sequence = c("EPNGENRR…",
-                                   "EPNGENRR…",
+tree_df <- data.frame(time = c(0, 1, 2, 5, 0, 5, 3, 5, 3, 5),
+                      position = c(5, 6, 7, 10, 5, 0, 8, 6, 2, 4),
+                      branch = c('b1', 'b1', 'b1', 'b1', 'b2', 'b2', 'b3', 'b3', 'b4', 'b4'),
+                      sequence = c("DPHGESFF…",
+                                   "EPNGESFF…",
+                                   "DPNGESFF…",
+                                   "EPNGESFF…",
                                    "KPNGESDK…",
                                    "KPNGESDK…",
                                    "DPHGESFF…",
@@ -25,9 +27,9 @@ tree_df <- data.frame(time = c(0, 5, 0, 5, 3, 5, 3, 5),
 #                                   "DPHGESFF…",
 #                                   "IPHGENRR…"))
 
-# subs_df <- data.frame(time = c(1, 2.5, 2, 2.5, 4, 4.5),
-#                       position = c(6, 7.5, 3, 2.5, 1, 9.5),
-#                       type = c(1:6))
+subs_df <- data.frame(time = c(1, 2.5, 2, 2.5, 4, 4.5),
+                      position = c(6, 7.5, 3, 2.5, 1, 9.5),
+                      type = c(1:6))
 
 ancestor_seq <- "DPHGESFF…"
 
