@@ -13,9 +13,9 @@ You will need the following packages to run both scripts:
 
 You can install `gganimate` using Thomas Lin Pederson's repository <https://github.com/thomasp85/gganimate>. `gganimate` also needs `tweenr` and `transformr` packages to run. These do not get installed as dependencies when you install `gganimate`. You can install `tweenr` using this repository <https://github.com/thomasp85/tweenr>, and you can install `transformr` using this repository <https://github.com/thomasp85/transformr>.
 
-The script `animate_ROC.r` will generate this animation
+The script `animate_ROC.r` will generate `ROC.gif`:
 ![](ROC.gif)
 
 
-The script `animate_cutoff.r` will generate this animation
+The script `animate_cutoff.r` will generate `cutoff.gif`:
 ![](cutoff.gif)
