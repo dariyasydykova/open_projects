@@ -42,7 +42,7 @@ ggplot(tree_df, aes(x = time, y = position, group = branch)) +
 ggplot(data = tree_df, mapping = aes(x = time, y = position)) + 
   geom_line(aes(group = branch), size = 1.5) + 
   #geom_segment(aes(xend = time, yend = position), linetype = 2, colour = 'grey') + 
-  geom_point(size = 3) +
+  geom_point(aes(color = sequence), size = 3) +
   geom_text(aes(label = sequence), 
             hjust = 0, 
             nudge_x = 0.2,
