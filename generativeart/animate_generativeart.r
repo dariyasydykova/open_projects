@@ -16,7 +16,7 @@ my_formula <- list(
 )
 
 # making a data frame with the visualization
-for (i in c(1:5)) {
+for (i in c(1:5)) { # iterating to get to the image I want
   df <- seq(from = -pi, to = pi, by = 0.02) %>%
     expand.grid(x_i = ., y_i = .) %>%
     dplyr::mutate(!!!my_formula)
