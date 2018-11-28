@@ -37,7 +37,7 @@ df_animate %>%
   ggplot2::theme_void() +
   ggplot2::coord_fixed() +
   ggplot2::coord_polar() +
-  theme(plot.background = element_rect(fill = "#adccc7")) +
+  theme(plot.background = element_rect(fill = "#ffba5a")) +
   transition_states(state, transition_length = 1, state_length = 1) -> p_genart
 
 # save each animation as individual frames
