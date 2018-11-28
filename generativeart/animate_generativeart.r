@@ -1,3 +1,4 @@
+# load packages needed to run this code
 library(generativeart)
 library(ggplot2)
 library(tidyr)
@@ -15,9 +16,11 @@ my_formula <- list(
 )
 
 # making a data frame with the visualization
-df <- seq(from = -pi, to = pi, by = 0.03) %>%
-  expand.grid(x_i = ., y_i = .) %>%
-  dplyr::mutate(!!!my_formula)
+for (i in c(1:5)) {
+  df <- seq(from = -pi, to = pi, by = 0.02) %>%
+    expand.grid(x_i = ., y_i = .) %>%
+    dplyr::mutate(!!!my_formula)
+}
 
 # split up the data frame to make the beginning state and the final state
 df %>% select(x = x_i, y = y_i) %>%
@@ -37,10 +40,12 @@ df_animate %>%
   theme(plot.background = element_rect(fill = "#adccc7")) +
   transition_states(state, transition_length = 1, state_length = 1) -> p_genart
 
+# save each animation as individual frames
+# each frame will be saved as a PNG image
 p_genart_gif <- animate(p_genart, 
                      device = "png",
-                     width = 400, 
-                     height = 400,
+                     width = 600, 
+                     height = 600,
                      renderer = file_renderer("./gganim", prefix = "p_genart", overwrite = TRUE))
 
 
