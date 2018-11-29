@@ -1,5 +1,5 @@
 # Generative art
-The images below were made with a `generativeart` package.
+The images below were made with a `generativeart` package in R.
 ![](images/2018-11-17-12-56_seed_2605.png)
 ![](images/2018-11-17-13-19_seed_469.png)
 ![](images/2018-11-17-23-57_seed_2500.png)
