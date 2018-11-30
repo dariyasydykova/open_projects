@@ -4,8 +4,8 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 library(gganimate)
-library(magick)
 
+# this function makes generative art 
 make_frame <- function(seed = 4182, state = 1, formula) {
   # set seed
   set.seed(seed)
@@ -19,7 +19,8 @@ make_frame <- function(seed = 4182, state = 1, formula) {
   df %>% select(x, y) %>%
     mutate(state = state)
 }
-# include a specific formula, for example:
+
+# set different formulas that will be used in the animation
 my_formula1 <- list(
   x = quote(runif(1, -1, 1) * x_i^3 - sin(y_i^2)),
   y = quote(runif(1, -1, 1) * y_i^3 - cos(x_i^2))
@@ -46,10 +47,13 @@ df_back <- data.frame(
 )
 
 # make an animation
+# we convert x and y from cartesian to polar coordinates
+# we wanted to keep visualization in polar coordinates and we wanted the background to change colors using `gganimate`
+# `gganimate` only works on geoms, so the background is drawn with geom_rect()
 df_animate %>%
   group_by(state) %>%
   mutate(
-    r = (y-min(y))/diff(range(y)),
+    r = (y-min(y))/diff(range(y)), # convert x and y to polar coordinates
     theta = 2*pi*(x-min(x))/diff(range(x))
   ) %>%
   ggplot(ggplot2::aes(x = r*sin(theta), y = r*cos(theta))) +
@@ -64,8 +68,7 @@ df_animate %>%
   coord_fixed(expand = FALSE) +
   transition_states(state, transition_length = 10, state_length = 0) -> p_genart
 
-# save each animation as individual frames
-# each frame will be saved as a PNG image
+# animate
 animate(p_genart, 
         device = "png",
         width = 600, 
