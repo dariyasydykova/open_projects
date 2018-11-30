@@ -62,7 +62,7 @@ df_animate %>%
   geom_point(alpha = 0.2, size = 0, shape = 20) +
   theme_void() +
   coord_fixed(expand = FALSE) +
-  transition_states(state, transition_length = 5, state_length = 1) -> p_genart
+  transition_states(state, transition_length = 10, state_length = 0) -> p_genart
 
 # save each animation as individual frames
 # each frame will be saved as a PNG image
