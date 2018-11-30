@@ -52,8 +52,9 @@ if (polar == TRUE) {
     ggplot2::coord_fixed()
 }
 
-# add background and save the plot
-final_plot <- plot + theme(plot.background = element_rect(fill = "#adccc7"))
-print(final_plot)
+# add background
+output_plot <- plot + theme(plot.background = element_rect(fill = "#adccc7"))
+print(output_plot)
 
-#ggsave(final_plot, filename = paste(IMG_PATH, file_name, sep = ""), width = 6, height = 6)
+# save an image
+#ggsave(output_plot, filename = paste(IMG_PATH, file_name, sep = ""), width = 6, height = 6)
