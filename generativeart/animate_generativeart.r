@@ -75,4 +75,4 @@ animate(p_genart,
         height = 600)
 
 # save as gif
-anim_save("genart_animation.gif")
+anim_save("generativeart.gif")
