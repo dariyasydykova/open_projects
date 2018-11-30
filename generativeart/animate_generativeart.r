@@ -6,58 +6,70 @@ library(dplyr)
 library(gganimate)
 library(magick)
 
-# set seed
-set.seed(4182)
+make_frame <- function(seed = 4182, state = 1, formula) {
+  # set seed
+  set.seed(seed)
 
+  # making a data frame with the visualization
+  df <- seq(from = -pi, to = pi, by = 0.02) %>%
+    expand.grid(x_i = ., y_i = .) %>%
+    dplyr::mutate(!!!formula)
+
+  # split up the data frame to extract the final state
+  df %>% select(x, y) %>%
+    mutate(state = state)
+}
 # include a specific formula, for example:
-my_formula <- list(
+my_formula1 <- list(
   x = quote(runif(1, -1, 1) * x_i^3 - sin(y_i^2)),
   y = quote(runif(1, -1, 1) * y_i^3 - cos(x_i^2))
 )
 
-# making a data frame with the visualization
-for (i in c(1:5)) { # iterating to get to the image I want
-  df <- seq(from = -pi, to = pi, by = 0.02) %>%
-    expand.grid(x_i = ., y_i = .) %>%
-    dplyr::mutate(!!!my_formula)
-}
+my_formula2 <- list(
+  x = quote(runif(1, -1, 1) * x_i^3 - sin(y_i^2)),
+  y = quote(runif(1, -1, 1) * y_i^4 - cos(x_i^4))
+)
 
-# split up the data frame to make the beginning state and the final state
-df %>% select(x = x_i, y = y_i) %>%
-  mutate(state = 1) -> df_t1
-df %>% select(x, y) %>%
-  mutate(state = 2) -> df_t2
-# combine 
-rbind(df_t1, df_t2) -> df_animate
+my_formula3 <- list(
+  x = quote(runif(1, -1, 1) * x_i^3 - sin(y_i^3)),
+  y = quote(runif(1, -1, 1) * y_i^3 - cos(x_i^3))
+)
+
+# make generative art for different seeds
+rbind(make_frame(4182, 2, my_formula1), make_frame(2096, 1, my_formula2), make_frame(9228, 3, my_formula3)) -> df_animate
+
+# make a data frame for background colors
+df_back <- data.frame(
+  xmin = -1.3, ymin = -1.3, xmax = 1.3, ymax = 1.3, x = 0, y = 0,
+  fill = c("#ffde7d", "#a8e6cf", "#defcf9"),
+  state = c(1, 2, 3)
+)
 
 # make an animation
 df_animate %>%
-  ggplot2::ggplot(ggplot2::aes(x = x, y = y)) +
-  ggplot2::geom_point(alpha = 0.3, size = 0, shape = 20) +
-  ggplot2::theme_void() +
-  ggplot2::coord_fixed() +
-  ggplot2::coord_polar() +
-  theme(plot.background = element_rect(fill = "#ffba5a")) +
-  transition_states(state, transition_length = 1, state_length = 1) -> p_genart
+  group_by(state) %>%
+  mutate(
+    r = (y-min(y))/diff(range(y)),
+    theta = 2*pi*(x-min(x))/diff(range(x))
+  ) %>%
+  ggplot(ggplot2::aes(x = r*sin(theta), y = r*cos(theta))) +
+  geom_rect(
+    data = df_back,
+    aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = fill, group = 1, x = 1, y = 1),
+    color = NA
+  ) +
+  scale_fill_identity() +
+  geom_point(alpha = 0.2, size = 0, shape = 20) +
+  theme_void() +
+  coord_fixed(expand = FALSE) +
+  transition_states(state, transition_length = 5, state_length = 1) -> p_genart
 
 # save each animation as individual frames
 # each frame will be saved as a PNG image
-p_genart_gif <- animate(p_genart, 
-                     device = "png",
-                     width = 600, 
-                     height = 600,
-                     renderer = file_renderer("./gganim", prefix = "p_genart", overwrite = TRUE))
+animate(p_genart, 
+        device = "png",
+        width = 600, 
+        height = 600)
 
-
-# read the first image (frame) of the animation
-a <- image_read(p_genart_gif[[1]])
-new_gif <- c(a)
-for(i in 2:100){ # combine images frame by frame
-  a <- image_read(p_genart_gif[[i]])
-  new_gif <- c(new_gif, a)
-}
-
-# make an animation of the combined images
-ga_gif <- image_animate(new_gif)
 # save as gif
-image_write(ga_gif, "generativeart.gif")
+anim_save("genart_animation.gif")

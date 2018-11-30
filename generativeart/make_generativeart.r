@@ -3,9 +3,9 @@ library(ggplot2)
 library(tidyr)
 
 # set the paths
-IMG_DIR <- "img/"
-IMG_SUBDIR <- "everything/"
-IMG_SUBDIR2 <- "handpicked/"
+IMG_DIR <- "image/"
+IMG_SUBDIR <- "./"
+IMG_SUBDIR2 <- "./"
 IMG_PATH <- paste0(IMG_DIR, IMG_SUBDIR)
 
 LOGFILE_DIR <- "logfile/"
@@ -33,7 +33,7 @@ file_name <- generate_filename(seed)
 
 # add new image to log file
 logfile <- check_logfile_existence()
-logfile <- generate_logfile_entry(logfile, formula, seed, file_name)
+logfile <- generate_logfile_entry(logfile, my_formula, seed, file_name)
 
 # make a plot
 polar = TRUE
