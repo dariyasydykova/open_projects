@@ -46,8 +46,8 @@ generate_plot <- function(df, file_name, coord, line_color) {
 
 x <- 3
 y <- c(2,2)
-n <- 100
-df1 <- get_circle_data(center = x, radius = y, npoints = n)
+n <- 500
+df1 <- get_circle_data(center = y, radius = 5, npoints = n)
 df2 <- generate_data(df1)
 plot <- generate_plot(df2, line_color = "black")
 
@@ -56,7 +56,7 @@ output_plot <- plot #+ theme(plot.background = element_rect(fill = "#f8d0b0"))
 print(output_plot)
 
 # save an image
-save_file = TRUE
+save_file = FALSE
 if (save_file){
   file_name <- paste0(format(Sys.time(), "%Y-%m-%d-%H-%M"), 
                       "_center_", y[1], y[2], "_radius_", x, "_npoints_", n,".png")
