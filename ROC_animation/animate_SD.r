@@ -42,7 +42,7 @@ calc_PR <- function(probabilities, known_truth, model.name = NULL)
   else
     result <- data.frame(precision, recall, model.name)
   
-  result %>% arrange(recall, desc(precision))
+  result %>% arrange(recall, desc(precision)) 
 }
 
 # make a reduced iris data set that only contains virginica and versicolor species
@@ -114,6 +114,8 @@ p_ROC <- ggplot(data = ROC, aes(x = false_pos, y = true_pos)) +
 p_PR <- ggplot(data = PR, aes(x = recall, y = precision)) +
   geom_line(size = 1) +
   transition_states(time, transition_length = 1, state_length = 1) +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(0, 1)) +
   ggtitle(" ") + # adding an emtpy title to align y axis with ROC plot
   theme_cowplot()
 
