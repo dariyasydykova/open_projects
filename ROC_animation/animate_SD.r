@@ -44,8 +44,8 @@ d_vers <- density(filter(lr_data, Species == "versicolor")$predictor)
 
 # move each species' density plot to overlap at the center.
 # this is the starting point
-virg_t1 <- data.frame(predictor = d_virg$x - 6.7, density = d_virg$y, time = 1, Species = "virginica")
-vers_t1 <- data.frame(predictor = d_vers$x + 6.8, density = d_vers$y, time = 1, Species = "versicolor")
+virg_t1 <- data.frame(predictor = d_virg$x - 8.7, density = d_virg$y, time = 1, Species = "virginica")
+vers_t1 <- data.frame(predictor = d_vers$x + 8.8, density = d_vers$y, time = 1, Species = "versicolor")
 
 virg_t2 <- virg_t1 %>% mutate(predictor = predictor*0.3, time = 2) 
 vers_t2 <- vers_t1 %>% mutate(time = 2)
@@ -64,8 +64,8 @@ p_dist <- ggplot(mapping = aes(predictor, density, group = 1)) +
   theme_cowplot()
 
 # create a new data frame with linear predictors, species, and time
-virg_t1 <- lr_data %>% filter(Species == "virginica") %>% mutate(predictor = predictor - 6.7, time = 1)
-vers_t1 <- lr_data %>% filter(Species == "versicolor") %>% mutate(predictor = predictor + 6.8, time = 1)
+virg_t1 <- lr_data %>% filter(Species == "virginica") %>% mutate(predictor = predictor - 8.7, time = 1)
+vers_t1 <- lr_data %>% filter(Species == "versicolor") %>% mutate(predictor = predictor + 8.8, time = 1)
 
 # change predictor values and add `time` variable to respresent a state in an animation
 # for each time point, changes in predictor values should match to the predictor values of the density plot
