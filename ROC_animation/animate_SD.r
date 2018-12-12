@@ -38,42 +38,30 @@ glm.out <- glm(Species ~ Petal.Width + Petal.Length + Sepal.Width,
 lr_data <- data.frame(predictor = glm.out$linear.predictors, 
                       Species = iris.small$Species)
 
-# get a density plot for each species
-d_virg <- density(filter(lr_data, Species == "virginica")$predictor)
-d_vers <- density(filter(lr_data, Species == "versicolor")$predictor)
-
-# move each species' density plot to overlap at the center.
-# this is the starting point
-virg_t1 <- data.frame(predictor = d_virg$x - 8.7, density = d_virg$y, time = 1, Species = "virginica")
-vers_t1 <- data.frame(predictor = d_vers$x + 8.8, density = d_vers$y, time = 1, Species = "versicolor")
-
-virg_t2 <- virg_t1 %>% mutate(predictor = predictor*0.3, time = 2) 
-vers_t2 <- vers_t1 %>% mutate(time = 2)
-
-rbind(virg_t1, virg_t2) -> virg_data
-rbind(vers_t1, vers_t2) -> vers_data
-
-# make an animation with distributions of linear predictors
-p_dist <- ggplot(mapping = aes(predictor, density, group = 1)) +
-  geom_hline(yintercept = 0, color = "black", size = 0.5, linetype = 2) +
-  geom_area(data = vers_data, alpha = 0.7, fill = "#C04A56") +
-  geom_area(data = virg_data, alpha = 0.7, fill = "#3D8CF1") +
-  scale_x_continuous(limits = c(-45, 50)) +
-  transition_states(time, transition_length = 1, state_length = 1) +
-  ggtitle(" ") + # adding an emtpy title to align y axis with ROC plot
-  theme_cowplot()
-
 # create a new data frame with linear predictors, species, and time
 virg_t1 <- lr_data %>% filter(Species == "virginica") %>% mutate(predictor = predictor - 8.7, time = 1)
 vers_t1 <- lr_data %>% filter(Species == "versicolor") %>% mutate(predictor = predictor + 8.8, time = 1)
 
 # change predictor values and add `time` variable to respresent a state in an animation
 # for each time point, changes in predictor values should match to the predictor values of the density plot
-virg_t1 %>% mutate(predictor = mean(predictor) + 0.3*(predictor - mean(predictor)), time = 2) -> virg_t2
+virg_t1 %>% mutate(predictor = mean(predictor) + 0.4*(predictor - mean(predictor)), time = 2) -> virg_t2
 vers_t1 %>% mutate(time = 2) -> vers_t2
 
+rbind(virg_t1, virg_t2, vers_t1, vers_t2) -> anim_data
+
+# make an animation with distributions of linear predictors
+p_dist <- ggplot(anim_data, mapping = aes(predictor, fill = Species)) +
+  geom_density(alpha = 0.7, color = NA) +
+  geom_hline(yintercept = 0, color = "black", size = 0.5, linetype = 2) +
+  scale_x_continuous(limits = c(-45, 50)) +
+  scale_fill_manual(values = c("#C04A56", "#3D8CF1")) +
+  transition_states(time, transition_length = 1, state_length = 1) +
+  ggtitle(" ") + # adding an emtpy title to align y axis with ROC plot
+  theme_cowplot() +
+  theme(legend.position = "none")
+
 # combine all data frames and calculate ROC curves and AUC values
-rbind(virg_t1, virg_t2, vers_t1, vers_t2) %>% # combine all data frames together
+anim_data %>%
   mutate(probabilities = exp(predictor)/(1+exp(predictor))) %>% # calculate probabilities for linear predictors
   group_by(time) %>% 
   do(results = calc_ROC(probabilities = .$probabilities, # calculate TP rate and FP rate for every possible cutoff
