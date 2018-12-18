@@ -56,7 +56,7 @@ outcome1 %>% rbind(outcome2) -> df_t1
 
 # two class are imbalanced at time 2
 outcome1 <- outcome1 %>% mutate(time = 2)
-outcome2 <- data.frame(predictor = rnorm(50, mean = 0, sd = 5), outcome = 2, time = 2)
+outcome2 <- data.frame(predictor = rnorm(50, mean = 5, sd = 5), outcome = 2, time = 2)
 outcome1 %>% rbind(outcome2) -> df_t2
 
 # combine the two datasets
