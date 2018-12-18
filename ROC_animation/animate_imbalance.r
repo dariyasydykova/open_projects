@@ -44,16 +44,22 @@ calc_PR <- function(probabilities, known_truth, model.name = NULL)
   
   result %>% arrange(recall, desc(precision)) 
 }
+# set seed to reproduce the given results
+set.seed(1234)
 
-# simulate predictor output
-outcome1 <- data.frame(predictor = rnorm(1000, mean = 0, sd = 5) - 5, outcome = 1, time = 1)
-outcome2 <- data.frame(predictor = rnorm(1000, mean = 0, sd = 5) + 5, outcome = 2, time = 1)
+# simulate predictor values for 2 different outcomes
+# predictors will be normally distributed
+# two classes are balanced at time 1
+outcome1 <- data.frame(predictor = rnorm(1000, mean = -5, sd = 5), outcome = 1, time = 1)
+outcome2 <- data.frame(predictor = rnorm(1000, mean = 5, sd = 5), outcome = 2, time = 1)
 outcome1 %>% rbind(outcome2) -> df_t1
 
+# two class are imbalanced at time 2
 outcome1 <- outcome1 %>% mutate(time = 2)
 outcome2 <- data.frame(predictor = rnorm(50, mean = 0, sd = 5), outcome = 2, time = 2)
 outcome1 %>% rbind(outcome2) -> df_t2
 
+# combine the two datasets
 rbind(df_t1, df_t2) -> anim_data
 
 # make an animation with distributions of linear predictors
