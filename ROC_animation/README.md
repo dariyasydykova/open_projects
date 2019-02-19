@@ -11,12 +11,7 @@ Please feel free to use the animations and scripts in this repository for teachi
 - `magick`
 - `mgcv`
 
-## Receiver operating characteristic 
+## Receiver operating characteristic (ROC) curve
 
-
-The script `animate_ROC.r` will generate `ROC.gif`.
-![](ROC.gif)
-
-
-The script `animate_cutoff.r` will generate `cutoff.gif`.
+Receiver operating characteristic curve displays how well a model can classify two binary outcomes. For example, a model is made to distinguish between benign and malignant tumors. ROC curve demonstrate how well the model can tell whether a benign tumor is benign and whether the malignant tumor is malignant. An ROC curve is displayd by plotting a false positive rate and a true positive rate, like you see below.
 ![](cutoff.gif)
