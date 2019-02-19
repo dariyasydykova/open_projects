@@ -13,5 +13,5 @@ Please feel free to use the animations and scripts in this repository for teachi
 
 ## Receiver operating characteristic (ROC) curve
 
-Receiver operating characteristic curve displays how well a model can classify two binary outcomes. For example, a model is made to distinguish between benign and malignant tumors. ROC curve demonstrate how well the model can tell whether a benign tumor is benign and whether the malignant tumor is malignant. An ROC curve is displayd by plotting a false positive rate and a true positive rate, like you see below.
+Receiver operating characteristic curve displays how well a model can classify binary outcomes. For example, a model is made to distinguish between benign and malignant tumors. An ROC curve demonstrates how well the model can tell whether a benign tumor is benign and whether the malignant tumor is malignant. To make an ROC curve a false positive rate is plotted against a true positive rate. 
 ![](cutoff.gif)
