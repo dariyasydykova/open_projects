@@ -1,0 +1,16 @@
+---
+title: "Untitled"
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## A repository for sharing code and my various projects
+
+In this repository you will find the following folders:
+
+- `ROC_animations`
+- `generativeart`
+- `tree_animation`
