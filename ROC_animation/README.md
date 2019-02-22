@@ -1,17 +1,45 @@
-# Animations with receiver operating characteristic and precision-recal curves. 
+Animations with receiver operating characteristic and precision-recal curves.
+=============================================================================
 
-## Usage
-Please feel free to use the animations and scripts in this repository for teaching or learning. If you want to recreate the animations in this repository, you will need the following packages to run the various scripts:
+Usage
+-----
 
-- `ggplot2`
-- `dplyr`
-- `tidyr`
-- `cowplot`
-- `gganimate`
-- `magick`
-- `mgcv`
+Please feel free to use the animations and scripts in this repository
+for teaching or learning. If you want to recreate the animations in this
+repository, you will need the following packages to run the various
+scripts:
 
-## Receiver operating characteristic (ROC) curve
+-   `ggplot2`
+-   `dplyr`
+-   `tidyr`
+-   `cowplot`
+-   `gganimate`
+-   `magick`
+-   `mgcv`
 
-Receiver operating characteristic curve displays how well a model can classify binary outcomes. For example, a model is made to distinguish between benign and malignant tumors. An ROC curve demonstrates how well the model can tell whether a benign tumor is benign and whether the malignant tumor is malignant. To make an ROC curve a false positive rate is plotted against a true positive rate. 
+Receiver operating characteristic (ROC) curve
+---------------------------------------------
+
+Receiver operating characteristic curve displays how well a model can
+classify binary outcomes. For example, a model is made to distinguish
+between benign and malignant tumors. An ROC curve demonstrates how well
+the model can tell whether a benign tumor is benign and whether the
+malignant tumor is malignant. To make an ROC curve a false positive rate
+is plotted against a true positive rate.
+
 ![](cutoff.gif)
+
+The plot on the left is the distribution of predictors for two outcomes.
+The vertical line that travels left-to-right is the cutoff that
+separates the positive and negative outcomes. In my tumor example, a
+cutoff is a predictor value that seperates benign from malignant tumors.
+A predictor value above the cutoff would classify a tumor as malignant,
+and a predictor value below the cutoff would classify a tumor as benign
+(assuming that positive outcome is malignant). Changing the cutoff value
+does not change the shape of the ROC curve.
+
+The shape of the ROC curve changes only if the model separates two
+outcomes differently, or if the distribution of predictors change like
+in the animation below.
+
+![](ROC.gif)
