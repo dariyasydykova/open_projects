@@ -27,7 +27,7 @@ the model can tell whether a benign tumor is benign and whether the
 malignant tumor is malignant. To make an ROC curve a false positive rate
 is plotted against a true positive rate.
 
-![](cutoff.gif)
+![](animations/cutoff.gif)
 
 The plot on the left is the distribution of predictors for two outcomes.
 The vertical line that travels left-to-right is the cutoff that
@@ -42,4 +42,11 @@ The shape of the ROC curve changes only if the model separates two
 outcomes differently, or if the distribution of predictors change like
 in the animation below.
 
-![](ROC.gif)
+![](animations/ROC.gif)
+
+Precision-recall curve
+----------------------
+
+Precision-recall curve also displays how well a model can classify
+binary outcomes; however, it does so differently than an ROC curve.
+Precision-recall curve plots true positive rate
