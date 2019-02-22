@@ -38,15 +38,27 @@ and a predictor value below the cutoff would classify a tumor as benign
 (assuming that positive outcome is malignant). Changing the cutoff value
 does not change the shape of the ROC curve.
 
+“AUC” in the title of the right plot stands for area under the curve.
+AUC tells us the area under the ROC curve, and, generally, an AUC values
+that is larger is preffered over an AUC value that is lower.
+
 The shape of the ROC curve changes only if the model separates two
 outcomes differently, or if the distribution of predictors change like
 in the animation below.
 
 ![](animations/ROC.gif)
 
+The model that makes an ROC curve that is closer to the left top corner
+would be considered
+
 Precision-recall curve
 ----------------------
 
 Precision-recall curve also displays how well a model can classify
-binary outcomes; however, it does so differently than an ROC curve.
-Precision-recall curve plots true positive rate
+binary outcomes. However, it does it differently than an ROC curve.
+Precision-recall curve plots true positive rate (recall or sensitivity)
+against the positive predictive value (precision). Positive predictive
+value is defined as the number of true positives divided by the number
+of total positive calls, and it is meant to measure the positive
+outcomes that were called correctly among all positive results. Unlike
+the ROC curve that
