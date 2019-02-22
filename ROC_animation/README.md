@@ -66,5 +66,6 @@ Precision-recall curve plots true positive rate (recall or sensitivity)
 against the positive predictive value (precision). Positive predictive
 value is defined as the number of true positives divided by the number
 of total positive calls, and it is meant to measure the positive
-outcomes that were called correctly among all positive results. Unlike
-the ROC curve that
+outcomes that were called correctly among all positive results. The
+shape of the precision-recall curve also changes as the distribution of
+predictor values changes. ![](animations/PR.gif)
