@@ -39,8 +39,9 @@ and a predictor value below the cutoff would classify a tumor as benign
 does not change the shape of the ROC curve.
 
 “AUC” in the title of the right plot stands for area under the curve.
-AUC tells us the area under the ROC curve, and, generally, an AUC values
-that is larger is preffered over an AUC value that is lower.
+AUC tells us the area under the ROC curve, and, generally, a high AUC
+value is indicative of a better model. You will see in the later
+sections when high AUC does not indicate a better model.
 
 The shape of the ROC curve changes only if the model separates two
 outcomes differently, or if the distribution of predictors change like
@@ -48,8 +49,13 @@ in the animation below.
 
 ![](animations/ROC.gif)
 
-The model that makes an ROC curve that is closer to the left top corner
-would be considered
+The AUC value increases as the ROC curve approaches the top left corner.
+The animation starts with a poor model that cannot tell one outcome from
+the other (two distributions completely overlap). As the two
+distributions separate, The ROC curve approaches the left top corner,
+and the AUC value of the curve increase. When the model can perfectly
+separate two outcomes, an ROC curve form a right angle and AUC becomes
+1.
 
 Precision-recall curve
 ----------------------
