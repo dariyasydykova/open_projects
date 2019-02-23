@@ -1,5 +1,5 @@
-Animations with receiver operating characteristic and precision-recal curves.
-=============================================================================
+Animations with receiver operating characteristic and precision-recal curves
+============================================================================
 
 Usage
 -----
@@ -53,8 +53,8 @@ The AUC value increases as the ROC curve approaches the top left corner.
 The animation starts with a poor model that cannot tell one outcome from
 the other (two distributions completely overlap). As the two
 distributions separate, The ROC curve approaches the left top corner,
-and the AUC value of the curve increase. When the model can perfectly
-separate two outcomes, an ROC curve form a right angle and AUC becomes
+and the AUC value of the curve increases. When a model can perfectly
+separate two outcomes, an ROC curves form a right angle and AUC becomes
 1.
 
 Precision-recall curve
@@ -68,4 +68,7 @@ value is defined as the number of true positives divided by the number
 of total positive calls, and it is meant to measure the positive
 outcomes that were called correctly among all positive results. The
 shape of the precision-recall curve also changes as the distribution of
-predictor values changes. ![](animations/PR.gif)
+predictor values changes. When a model can perfectly separate two
+outcomes, a precision-recall curve forms a right angle like an ROC
+curve. In the following animation, precision-recall curve is plotted in
+the panel on the right. ![](animations/PR.gif)
