@@ -47,6 +47,6 @@ In this animation, both distributions start with 1000 outcomes. The blue one is 
 
 ## AUC value can be misleading 
 
-When the standard deviation of one of the distribution changes, AUC value increases. This should indicate that the model performance has increased, when, actually, the prediction performance becomes worse at small false positive rates. 
+When the standard deviation of one of the outcomes changes, an ROC curve and its AUC value also change. In the following animation, when the standard deviation of the blue distribution is decreased, the ROC curve shifts upwards, and its AUC value increases. This should indicate that the model performance has increased, when, in fact, the prediction performance has worsened at small false positive rates. 
 
 ![](animations/SD.gif)
