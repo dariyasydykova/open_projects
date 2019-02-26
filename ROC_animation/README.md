@@ -22,10 +22,10 @@ malignant tumor is malignant.
 
 An ROC curve is made by plotting a false positive rate against a true
 positive rate for each possible cutoff value. In my tumor example, we
-can assume that the positive outcome is malignant. Then the true
-positive rate is the fraction of tumors that were correctly identified
-as malignant. The false positive rate is the fraction of tumors that are
-benign that were identified as malignant.
+can assume that the positive outcome is malignant. Then, the true
+positive rate is the fraction of malignant tumors that were correctly
+identified as malignant, and the false positive rate is the fraction of
+benign tumors that were incorrectly identified as malignant.
 
 ![cutoff.gif](animations/cutoff.gif)
 
