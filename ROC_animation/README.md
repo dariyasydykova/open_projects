@@ -11,14 +11,14 @@ using these [scripts](R). Each script is named according to the
 animation it generates (i.e. `animate_ROC.r` generates `ROC.gif`,
 `animate_SD.r` generates `SD.gif`, etc.).
 
-Receiver operating characteristic (ROC) curve
----------------------------------------------
+Receiver operating characteristic curve
+---------------------------------------
 
-A receiver operating characteristic curve displays how well a model can
-classify binary outcomes. For example, let's assume we make a model to
-distinguish between benign and malignant tumor samples. An ROC curve
-demonstrates how well this model can tell whether a benign tumor is
-benign and whether a malignant tumor is malignant.
+A receiver operating characteristic curve (ROC) curve displays how well
+a model can classify binary outcomes. For example, let's assume we make
+a model to distinguish between benign and malignant tumor samples. An
+ROC curve demonstrates how well this model can tell whether a benign
+tumor is benign and whether a malignant tumor is malignant.
 
 An ROC curve is made by plotting a false positive rate against a true
 positive rate for each possible cutoff value. In my tumor example, a
