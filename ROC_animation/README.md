@@ -7,7 +7,9 @@ Usage
 Please feel free to use the animations and scripts in this repository
 for teaching or learning. You can directly download the [gif
 files](animations) for any of the animations, or you can recreate them
-using these [scripts](R).
+using these [scripts](R). Each script is named according to the
+animation it generates (i.e. `animate_ROC.r` generates `ROC.gif` and
+`animate_SD.r` generates `SD.gif`).
 
 Receiver operating characteristic (ROC) curve
 ---------------------------------------------
@@ -15,9 +17,15 @@ Receiver operating characteristic (ROC) curve
 Receiver operating characteristic curve displays how well a model can
 classify binary outcomes. For example, a model is made to distinguish
 between benign and malignant tumors. An ROC curve demonstrates how well
-the model can tell whether a benign tumor is benign and whether the
-malignant tumor is malignant. To make an ROC curve a false positive rate
-is plotted against a true positive rate.
+the model can tell whether a benign tumor is benign or whether a
+malignant tumor is malignant.
+
+An ROC curve is made by plotting a false positive rate against a true
+positive rate for each possible cutoff value. In my tumor example, we
+can assume that the positive outcome is malignant. Then the true
+positive rate is the fraction of tumors that were correctly identified
+as malignant. The false positive rate is the fraction of tumors that are
+benign that were identified as malignant.
 
 ![cutoff.gif](animations/cutoff.gif)
 
@@ -30,11 +38,12 @@ and a predictor value below the cutoff would classify a tumor as benign
 (assuming that positive outcome is malignant). Changing the cutoff value
 does not change the shape of the ROC curve.
 
-“AUC” in the title of the right plot stands for area under the curve.
+"AUC" in the title of the right plot stands for area under the curve.
 AUC tells us the area under the ROC curve, and, generally, a high AUC
-value is indicative of a model with good performance. Typically, AUC
-values of 0.7 are considered to be good. In a later section you will see
-the case when a high AUC value does not correspond to a good model.
+value is indicative of a model that can distinguish between two outcomes
+well. Typically, AUC values of 0.7 are considered to be good. In a later
+section you will see the case when a model with a higher AUC value is
+not necessarily better than a model with a lower AUC value.
 
 The shape of an ROC curve changes only if the model putcome changes.
 
