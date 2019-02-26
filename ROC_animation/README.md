@@ -36,8 +36,13 @@ The plot on the left shows the distributions of predictors for two
 outcomes. The vertical line that travels left-to-right is the cutoff
 value. The red dot that travels along the ROC curve corresponds to the
 false positive rate and the true positive rate for the cutoff value
-given in the plot on the left. Changing the cutoff value does not change
-the shape of the ROC curve, it changes where you are on that curve.
+given in the plot on the left. In the tumor example, when the cutoff
+value is all the way on the left, every tumor is classified as
+malignant, and the true positive rate is 1, and the false positive rate
+is 1. This means that all malignant tumors were classified correctly,
+and all benigh tumors were classified incorrectly. This demonstrates
+that there is a trade-off between classifying malignant tumors correctly
+and classifying benign tumors correctly.
 
 "AUC" in the title of the right plot stands for area under the curve.
 AUC tells us the area under the ROC curve, and, generally, a high AUC
