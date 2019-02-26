@@ -8,8 +8,8 @@ Please feel free to use the animations and scripts in this repository
 for teaching or learning. You can directly download the [gif
 files](animations) for any of the animations, or you can recreate them
 using these [scripts](R). Each script is named according to the
-animation it generates (i.e. `animate_ROC.r` generates `ROC.gif` and
-`animate_SD.r` generates `SD.gif`).
+animation it generates (i.e. `animate_ROC.r` generates `ROC.gif`,
+`animate_SD.r` generates `SD.gif`, etc.).
 
 Receiver operating characteristic (ROC) curve
 ---------------------------------------------
@@ -25,10 +25,11 @@ positive rate for each possible cutoff value. In my tumor example, a
 cutoff value is a value that seperates benign and malignant outcomes. If
 we assume that the positive outcome is malignant, a predictor value
 above the cutoff would classify a tumor as malignant, and a predictor
-value below the cutoff would classify a tumor as benign. Then, the true
-positive rate is the fraction of malignant tumors that were correctly
-identified as malignant, and the false positive rate is the fraction of
-benign tumors that were incorrectly identified as malignant.
+value below the cutoff would classify a tumor as benign. In this
+example, the true positive rate is the fraction of malignant tumors that
+were correctly identified as malignant, and the false positive rate is
+the fraction of benign tumors that were incorrectly identified as
+malignant.
 
 ![cutoff.gif](animations/cutoff.gif)
 
