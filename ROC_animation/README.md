@@ -34,24 +34,23 @@ malignant.
 ![cutoff.gif](animations/cutoff.gif)
 
 The plot on the left shows the distributions of predictors for the two
-outcomes. The vertical line that travels left-to-right is the cutoff
-value. The red dot that travels along the ROC curve corresponds to the
-false positive rate and the true positive rate for the cutoff value
-given in the plot on the left.
+outcomes, and the plot on the right shows the ROC curve for these
+distributions. The vertical line that travels left-to-right is the
+cutoff value. The red dot that travels along the ROC curve corresponds
+to the false positive rate and the true positive rate for the cutoff
+value given in the plot on the left.
 
-The traveling cutoff is meant to demonstrate the trade-off between
-trying to classify one outcome correctly and trying to classify the
-other outcome correcly. When we try to increase the true positive rate,
-we also increase the false positive rate. When we try to decrease the
-false positive rate, we decrease the true positive rate.
+The traveling cutoff demonstrates the trade-off between trying to
+classify one outcome correctly and trying to classify the other outcome
+correcly. When we try to increase the true positive rate, we also
+increase the false positive rate. When we try to decrease the false
+positive rate, we decrease the true positive rate.
 
-"AUC" at the top of the right plot stands for "area under the curve",
-and it tell us the area under the ROC curve. Generally, a high AUC value
-is indicative of a model that can distinguish between the two outcomes
-well. An AUC of 0.5 tells us that the model is a random classifier, and
-it cannot distinguish between the two outcomes. In a later section you
-will see the case when a model with a higher AUC value is not
-necessarily better than a model with a lower AUC value.
+"AUC" at the top of the right plot stands for "area under the curve".
+AUC tells us the area under an ROC curve, and, generally, an AUC value
+over 0.7 is indicative of a model that can distinguish between the two
+outcomes well. An AUC of 0.5 tells us that the model is a random
+classifier, and it cannot distinguish between the two outcomes.
 
 The shape of an ROC curve changes when a model changes the way it
 classifies the two outcomes.
