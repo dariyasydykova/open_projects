@@ -46,9 +46,9 @@ we also increase the false positive rate. When we try to decrease the
 false positive rate, we decrease the true positive rate.
 
 "AUC" at the top of the right plot stands for "area under the curve",
-and it tell us the area under an ROC curve. Generally, a high AUC value
+and it tell us the area under the ROC curve. Generally, a high AUC value
 is indicative of a model that can distinguish between the two outcomes
-well. The AUC of 0.5 tells us that the model is a random classifier, and
+well. An AUC of 0.5 tells us that the model is a random classifier, and
 it cannot distinguish between the two outcomes. In a later section you
 will see the case when a model with a higher AUC value is not
 necessarily better than a model with a lower AUC value.
