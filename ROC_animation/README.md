@@ -37,12 +37,13 @@ The plot on the left shows the distributions of predictors for the two
 outcomes. The vertical line that travels left-to-right is the cutoff
 value. The red dot that travels along the ROC curve corresponds to the
 false positive rate and the true positive rate for the cutoff value
-given in the plot on the left. The changes in the cutoff value
-demonstrate that when we try to increase the true positive rate, we also
-increase the false positive rate. Similarly, when we try to decrease the
-false positive rate, we also decrease the true positive rate. This
-demonstrates that there is a trade-off between trying to classify one
-outcome correctly and trying to classify the other outcome correcly.
+given in the plot on the left.
+
+The traveling cutoff is meant to demonstrate the trade-off between
+trying to classify one outcome correctly and trying to classify the
+other outcome correcly. When we try to increase the true positive rate,
+we also increase the false positive rate. When we try to decrease the
+false positive rate, we decrease the true positive rate.
 
 "AUC" at the top of the right plot stands for "area under the curve",
 and it tell us the area under an ROC curve. Generally, a high AUC value
