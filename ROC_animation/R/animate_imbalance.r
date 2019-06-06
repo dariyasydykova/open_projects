@@ -109,8 +109,8 @@ anim_data %>%
 p_ROC <- ggplot(data = ROC, aes(x = false_pos, y = true_pos)) +
   geom_line(size = 1) +
   geom_abline(intercept = 0, slope = 1) +
-  transition_states(AUC, transition_length = 1, state_length = 1) +
-  ggtitle("AUC = {closest_state}") +
+  transition_states(time, transition_length = 1, state_length = 1) +
+  ggtitle("AUC = {AUC}") +
   scale_x_continuous(name = "false positive rate") +
   scale_y_continuous(name = "true positive rate") +
   theme_cowplot()
