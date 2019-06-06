@@ -93,7 +93,7 @@ anim_data %>%
   mutate(AUC = sprintf("%.3f", sum(delta * true_pos, na.rm = T))) -> ROC
 
 # reverse factor in `AUC` variable so the AUC values match to the timing of the animation
-ROC$AUC <- fct_rev(ROC$AUC)
+ROC$AUC <- fct_inorder(ROC$AUC)
 
 # calculate precision-recall curves
 anim_data %>%
