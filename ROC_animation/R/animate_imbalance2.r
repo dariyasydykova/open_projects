@@ -131,19 +131,19 @@ p_dist_gif <- animate(p_dist,
                       device = "png",
                       width = 400,
                       height = 400,
-                      renderer = file_renderer("../animations/gganim_imbalance", prefix = "p_dist", overwrite = TRUE)
+                      renderer = file_renderer("../animations/gganim_imbalance2", prefix = "p_dist", overwrite = TRUE)
 )
 p_ROC_gif <- animate(p_ROC,
                      device = "png",
                      width = 400,
                      height = 400,
-                     renderer = file_renderer("../animations/gganim_imbalance", prefix = "p_ROC", overwrite = TRUE)
+                     renderer = file_renderer("../animations/gganim_imbalance2", prefix = "p_ROC", overwrite = TRUE)
 )
 p_PR_gif <- animate(p_PR,
                     device = "png",
                     width = 400,
                     height = 400,
-                    renderer = file_renderer("../animations/gganim_imbalance", prefix = "p_PR", overwrite = TRUE)
+                    renderer = file_renderer("../animations/gganim_imbalance2", prefix = "p_PR", overwrite = TRUE)
 )
 
 # stitch animations together
@@ -165,4 +165,4 @@ for (i in 2:100) { # combine images frame by frame
 # make an animation of the combined images
 combined_gif <- image_animate(new_gif)
 # save as gif
-image_write(combined_gif, "../animations/imbalance.gif")
+image_write(combined_gif, "../animations/imbalance2.gif")
