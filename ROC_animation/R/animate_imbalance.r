@@ -1,7 +1,5 @@
 # load packages needed to run this code
-library(ggplot2)
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(cowplot)
 library(gganimate)
 library(magick)
@@ -62,7 +60,7 @@ outcome1 <- data.frame(predictor = rnorm(1000, mean = -5, sd = 5), outcome = 1, 
 outcome2 <- data.frame(predictor = rnorm(1000, mean = 5, sd = 5), outcome = 2, time = 1)
 outcome1 %>% rbind(outcome2) -> df_t1
 
-# two class are imbalanced at time 2
+# two classes are imbalanced at time 2
 outcome1 <- outcome1 %>% mutate(time = 2)
 outcome2 <- data.frame(predictor = rnorm(50, mean = 5, sd = 5), outcome = 2, time = 2)
 outcome1 %>% rbind(outcome2) -> df_t2
@@ -94,6 +92,9 @@ anim_data %>%
   mutate(delta = false_pos - lag(false_pos)) %>% # calculate AUC values
   mutate(AUC = sprintf("%.3f", sum(delta * true_pos, na.rm = T))) -> ROC
 
+# reverse factor in `AUC` variable so the AUC values match to the timing of the animation
+ROC$AUC <- fct_rev(ROC$AUC)
+
 # calculate precision-recall curves
 anim_data %>%
   mutate(probabilities = exp(predictor) / (1 + exp(predictor))) %>% # calculate probabilities for linear predictors
@@ -109,8 +110,8 @@ anim_data %>%
 p_ROC <- ggplot(data = ROC, aes(x = false_pos, y = true_pos)) +
   geom_line(size = 1) +
   geom_abline(intercept = 0, slope = 1) +
-  transition_states(time, transition_length = 1, state_length = 1) +
-  ggtitle("AUC = {AUC}") +
+  transition_states(AUC, transition_length = 1, state_length = 1) +
+  labs(title = "AUC = {closest_state}") +
   scale_x_continuous(name = "false positive rate") +
   scale_y_continuous(name = "true positive rate") +
   theme_cowplot()

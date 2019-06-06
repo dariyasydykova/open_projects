@@ -1,7 +1,5 @@
 # load packages needed to run this code
-library(ggplot2)
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(cowplot)
 library(gganimate)
 library(magick)
@@ -26,7 +24,7 @@ calc_ROC <- function(probabilities, known_truth, model.name = NULL) {
   } else {
     result <- data.frame(true_pos, false_pos, model.name)
   }
-
+  
   result %>% add_row(true_pos = 0, false_pos = 0) %>% arrange(false_pos, true_pos)
 }
 
@@ -49,7 +47,7 @@ calc_PR <- function(probabilities, known_truth, model.name = NULL) {
   } else {
     result <- data.frame(precision, recall, model.name)
   }
-
+  
   result %>% arrange(recall, desc(precision))
 }
 # set seed to reproduce the given results
@@ -94,6 +92,9 @@ anim_data %>%
   mutate(delta = false_pos - lag(false_pos)) %>% # calculate AUC values
   mutate(AUC = sprintf("%.3f", sum(delta * true_pos, na.rm = T))) -> ROC
 
+# reverse factor in `AUC` variable so the AUC values match to the timing of the animation
+ROC$AUC <- fct_rev(ROC$AUC)
+
 # calculate precision-recall curves
 anim_data %>%
   mutate(probabilities = exp(predictor) / (1 + exp(predictor))) %>% # calculate probabilities for linear predictors
@@ -110,7 +111,7 @@ p_ROC <- ggplot(data = ROC, aes(x = false_pos, y = true_pos)) +
   geom_line(size = 1) +
   geom_abline(intercept = 0, slope = 1) +
   transition_states(AUC, transition_length = 1, state_length = 1) +
-  ggtitle("AUC = {closest_state}") +
+  labs(title = "AUC = {closest_state}") +
   scale_x_continuous(name = "false positive rate") +
   scale_y_continuous(name = "true positive rate") +
   theme_cowplot()
@@ -127,22 +128,22 @@ p_PR <- ggplot(data = PR, aes(x = recall, y = precision)) +
 # save each animation as individual frames
 # each frame will be saved as a PNG image
 p_dist_gif <- animate(p_dist,
-  device = "png",
-  width = 400,
-  height = 400,
-  renderer = file_renderer("../animations/gganim_imbalance2", prefix = "p_dist", overwrite = TRUE)
+                      device = "png",
+                      width = 400,
+                      height = 400,
+                      renderer = file_renderer("../animations/gganim_imbalance", prefix = "p_dist", overwrite = TRUE)
 )
 p_ROC_gif <- animate(p_ROC,
-  device = "png",
-  width = 400,
-  height = 400,
-  renderer = file_renderer("../animations/gganim_imbalance2", prefix = "p_ROC", overwrite = TRUE)
+                     device = "png",
+                     width = 400,
+                     height = 400,
+                     renderer = file_renderer("../animations/gganim_imbalance", prefix = "p_ROC", overwrite = TRUE)
 )
 p_PR_gif <- animate(p_PR,
-  device = "png",
-  width = 400,
-  height = 400,
-  renderer = file_renderer("../animations/gganim_imbalance2", prefix = "p_PR", overwrite = TRUE)
+                    device = "png",
+                    width = 400,
+                    height = 400,
+                    renderer = file_renderer("../animations/gganim_imbalance", prefix = "p_PR", overwrite = TRUE)
 )
 
 # stitch animations together
@@ -164,4 +165,4 @@ for (i in 2:100) { # combine images frame by frame
 # make an animation of the combined images
 combined_gif <- image_animate(new_gif)
 # save as gif
-image_write(combined_gif, "../animations/imbalance2.gif")
+image_write(combined_gif, "../animations/imbalance.gif")
